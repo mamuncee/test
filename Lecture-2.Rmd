@@ -1,0 +1,151 @@
+---
+title: "Descriptive Statistics: Tabular and Graphical Methods (COA320)"
+author: "M M Rashid, Division of Coastal Sciences, USM"
+output:
+  html_document: default
+  word_document: default
+  #pdf_document: default
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+```
+
+## [Learning objectives]{.ul}
+
+-   **Summarize and display quantitative data (frequency distributions, bar graphs, and dot charts)**
+
+-   **Summarize and report quantitative data**
+
+-   **Construct a histogram as a graphical summary of quantitative data**
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+**Frequency Distribution:** A frequency distribution is a tabular summary of the number of observations falling into each of two or more mutually exclusive, collectively exhaustive categories.
+
+**Relative Frequency Distribution:** A relative frequency distribution reports the proportion, rather than number, of observations falling into each category.
+
+![](fig1.png "Table: Graduate students' place-of-origin data")
+
+The table (above) shows the graduate students' place-of-origin data. The data is qualitative. Even though the countries could be coded with numbers (e.g., Europe=1, China =2, etc.), yet they are not inherently numerical, and thus can not perform numeral analysis on them. The best way to report the data is to use frequency analysis/ distribution that enable us to categorize, count and compare the data in terms of the country-of-origin.
+
+#### **Lets' prepare the data and perform Frequency Analysis** 
+
+#### Data Preparation
+
+```{r}
+#Generate data values
+A = c(rep('Latin', 3), rep('Europe', 4), rep('US', 8),rep('India', 10), rep('China', 15))
+
+# review first 8 obervation
+head(A,8)
+
+```
+
+```{r}
+#display all observations of the data
+A
+```
+
+### [Manual calculation]{.ul}
+
+| **Country**   | **Frequency** | **Relative frequency** | **Percent frequency** |
+|---------------|---------------|------------------------|-----------------------|
+| China         | 15            | 15/40 =0.375           | 37.5%                 |
+| Europe        | 4             | 4/40 = 0.1             | 10%                   |
+| India         | 10            | 10/40 = 0.25           | 25%                   |
+| Latin America | 3             | 3/40 =0.075            | 7.5%                  |
+| US            | 8             | 8/40 =0.2              | 20%                   |
+| Total         | 40            | 1.00                   | 100%                  |
+
+: Table: Frequncy, realtive freqeuncy, and percent frequency distribution
+
+### [Estimation using R]{.ul} 
+
+#### Frequency Distribution
+
+```{r}
+# use the 'table' function to quantify the freqeuncies (counts of each categories)
+freq=table(A)
+freq
+```
+
+#### Relative Frequency Distribution
+
+```{r}
+# use sum() or length() to find the total number of elements in the data
+n=sum(freq)
+n=length(A)
+n
+
+#Estimating relative frequency of each catagory (country-of-origin) y dividing 'freq' by n
+
+RF=freq/n
+RF
+```
+
+#### Arrange the results in a table
+
+|               |               |                        |                      |
+|---------------|---------------|------------------------|----------------------|
+| **Country**   | **Frequency** | **Relative frequency** | **Percent frequncy** |
+| China         | 15            | 15/40 =0.375           | 37.5%                |
+| Europe        | 4             | 4/40 = 0.1             | 10%                  |
+| India         | 10            | 10/40 = 0.25           | 25%                  |
+| Latin America | 3             | 3/40 =0.075            | 7.5%                 |
+| US            | 8             | 8/40 =0.2              | 20%                  |
+| Total         | 40            | 1.00                   | 100%                 |
+
+: Table: Frequency, relative frequency, and percent frequency distribution
+
+### [Displaying qualitative data]{.ul}
+
+#### Two graphical methods of displaying qualitative data are (1) bar graph ad (2) dot chart. We will use the data defined earlier stored in the variable 'A'.
+
+**What is a Bar Graph?** A bar graph is a picture displaying qualitative data. Bars representing the different categories are typically placed along a horizontal axis; the heights of the bars drawn above the axis indicate the frequency, relative frequency, or percent frequency for each category.
+
+**What is Dot Chart?** A dot chart is a graphical representation of qualitative data expressed in terms of frequencies (or relative frequencies) of category occurrence.
+
+#### [Create a Bar Chart:]{.ul}
+
+```{r}
+
+# create dataframe and add variable name
+
+# Use the data.frame() function to (a) convert A into a data frame and 
+# (b) introduce variable name, ’Region.’ Use head(C2_1, 8)
+
+A <- data.frame(Region = A);
+# display first eight elements
+head(A,8)
+
+# load the ggpot2 to display the with bar graph and dot chart
+library(ggplot2)
+
+# plot bar graph
+ggplot(A, aes(Region)) +
+
+       geom_bar(fill = "blue") +
+
+       ggtitle("Bar Graph of Student Origin Data") +
+
+       xlab("Country/Region") +
+
+       ylab("Number of Students")
+
+```
+
+#### [Create a Dot Plot:]{.ul}
+
+Create a dot plot for ploting relative frequency of different countries/nations/ regions using previously created relative frequency data stored in "FE"
+
+```{r}
+RF
+# plot dot chart ('dotchart' is a built in function; no need to load the 'ggplot2')
+dotchart(sort(RF), xlab = "Relative Frequencies of Nation/Region",
+
+         main = 'A Dot Chart of Student Origin Data',
+
+         xlim = c(0,0.40), pch = 19, col = 'black')
+```
